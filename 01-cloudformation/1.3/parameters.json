@@ -1,0 +1,10 @@
+[
+    {
+        "ParameterKey": "BucketIdentifier",
+        "ParameterValue": "stelligent-u-raja.kavuru.labs"
+    },
+    {
+        "ParameterKey": "BucketOwner",
+        "ParameterValue": "raja.kavuru@stelligent.com"
+    }
+]

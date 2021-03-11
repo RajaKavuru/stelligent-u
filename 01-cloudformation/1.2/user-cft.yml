@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Stelligent Labs IAM User
+
+Parameters:
+  UserName:
+    Type: String
+    Default: raja.kavuru.labs2
+  DefaultPassword:
+    Type: String
+    NoEcho: True
+  ManagedPolicyStackName:
+    Type: String
+    Default: "raja-kavuru-labs-01"
+
+Resources:
+  IamUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: !Ref UserName
+      LoginProfile:
+        Password: !Ref DefaultPassword
+      ManagedPolicyArns:
+        - Fn::ImportValue: !Sub "${ManagedPolicyStackName}-ManagedPolicyARN"

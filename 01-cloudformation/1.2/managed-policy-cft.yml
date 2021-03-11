@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Stelligent Labs IAM Managed Policy
+
+Resources:
+  ReadAllS3BucketsPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: ReadAllS3Buckets
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Sid: AllowListingReading
+            Effect: Allow
+            Action:
+              - s3:ListAllMyBuckets
+              - s3:ListBucket
+              - s3:GetObject
+            Resource: "*"
+
+Outputs:
+  ManagedPolicyArn:
+    Description: Managed Policy ARN
+    Value: !Ref ReadAllS3BucketsPolicy
+    Export:
+      Name: !Sub "${AWS::StackName}-ManagedPolicyARN"

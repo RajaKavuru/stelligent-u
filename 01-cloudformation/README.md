@@ -148,6 +148,7 @@ name.
   to one of them.
 
 - Try to delete the Stack using the AWS CLI. What happens?
+>CLI returns ValidationError
 
 - Remove termination protection and try again.
 
@@ -159,14 +160,17 @@ name.
 #### Question: Why YAML
 
 _Why do we prefer the YAML format for CFN templates?_
+> YAML supports comments so the CFT can be annotated. I personally find JSON easier to use. It's also faster, and CFN converts YAML to JSON while deploying.
 
 #### Question: Protecting Resources
 
 _What else can you do to prevent resources in a stack from being deleted?_
+> Apart from enabling termnination protection on the CFN stack, we can also set deletion policy on the individual resources to retain in the CFT so the resources are not deleted when the stack is. Specific services (S3, EC2, DynamoDB, etc) offer their own termination protection as well.
 
 See [DeletionPolicy](https://aws.amazon.com/premiumsupport/knowledge-center/cloudformation-accidental-updates/).
 
 _How is that different from applying Termination Protection?_
+> ^ Answered
 
 #### Task: String Substitution
 
@@ -227,6 +231,8 @@ Delete your CFN stacks in the same order you created them in. Did you
 succeed? If not, describe how you would _identify_ the problem, and
 resolve it yourself.
 
+>Deletion of the stacks needs to be done in the reverse order of creation of the dependency stacks, otherwise delete fails since you cannot delete a stack whose outputs are being imported by another stack
+
 ### Retrospective 1.2
 
 #### Task: Policy Tester
@@ -241,6 +247,8 @@ parameter in the same region as the first Stack, and provide a value for
 that parameter. Modify the first Stack's template so that it utilizes
 this Parameter Store parameter value as the IAM User's name. Update the
 first stack. Finally, tear it down.
+
+> Systems manager parameters can be referenced by using this notation: '{{resolve:ssm:<parameterName>:<parameterVersion>}}' 
 
 ## Lesson 1.3: Portability & Staying DRY
 
@@ -262,6 +270,7 @@ for a more thorough list of recommendations for improving your use of
 CloudFormation). Some lab exercises have already demonstrated
 portability (_can you point out where?_) and this lesson will focus
 on it specifically.
+> 1.1.2, 1.1.3
 
 #### Lab 1.3.1: Scripts and Configuration
 
@@ -317,6 +326,12 @@ functionality. Query S3 to ensure that the buckets have been deleted.
 
 _Can you list 4 features of CloudFormation that help make a CFN template
 portable code?_
+
+> 1. Overriding parameters via CLI
+> 2. Overriding parameters via Config file
+> 3. It's JSON/YAML which can be generated via code and has support in many languages via AWS SDKs
+> 4. Idempotency
+
 
 #### Task: DRYer Code
 

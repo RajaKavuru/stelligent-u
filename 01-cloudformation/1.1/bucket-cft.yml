@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Stelligent Labs S3 Bucket for Raja Kavuru
+Parameters:
+  BucketIdentifier:
+    Type: String
+    Default: stelligent-u-raja.kavuru.labs
+    Description: Custom identifier for the S3 Bucket name
+  BucketOwner:
+    Type: String
+    Default: admin
+    Description: Owner tag for the S3 bucket
+
+Conditions:
+  PreferredRegion: !Equals [!Ref AWS::Region, us-east-2]
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !If
+        - PreferredRegion
+        - !Join ["-", [!Ref "AWS::AccountId", !Ref BucketIdentifier]]
+        - !Join ["-", [!Ref "AWS::Region", !Ref BucketIdentifier]]
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: Owner
+          Value: !Ref BucketOwner
