@@ -192,9 +192,15 @@ to configure the Cloud9 instance to work with GitHub.
 _Running the two commands in [lab 0.1.1](#lab-011-aws-access-keys) and
 [lab 0.1.3](#lab-013-cloud9-environment) should have shown the same
 results. What does this tell you about the access the keys give you on
-your laptop and the access you have in the Cloud9 environment? What
+your laptop and the access you have in the Cloud9 environment?
+
+>They are the same
+
+What
 other methods are there to provide this level of access without using
 keys?_
+
+>Attaching an instance profile with the same IAM policies as the user to the Cloud9 EC2 instance. This is the most secure, since there are no permanent keys being stored in the shell.
 
 #### Task
 
@@ -209,3 +215,5 @@ to complete the training work. In your Cloud9 Editor, perform the following:
   your forked repository
 - Create a pull request from your branch to the master branch within your forked
   repository and merge after reviewing
+
+  > hello_world.py
