@@ -1,0 +1,37 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Stellligent Labs inline IAM policy with conditional statement for S3
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: raja-kavuru-labs-3-3
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: Owner
+          Value: raja.kavuru.labs
+  S3Role:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: arn:aws:iam::324320755747:user/raja.kavuru.labs
+            Action: "sts:AssumeRole"
+      Policies:
+        - PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: "s3:List*"
+                Resource: arn:aws:s3:::raja-kavuru-labs-3-3
+                Condition:
+                  StringEquals:
+                    s3:prefix: lebowski/
+          PolicyName: LebwoskiS3
+      RoleName: LebowskiS3

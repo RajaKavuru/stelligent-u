@@ -168,6 +168,8 @@ stack's two roles in order to pass those values to the CLI function. You
 probably used the AWS web console to get the ARN for each role. What
 could you have done to your CFN template to make that unnecessary?_
 
+> Use CFN outputs section and query the CFT
+
 #### Task: Stack Outputs
 
 Institute that change from the Question above. Recreate the stack as per
@@ -259,6 +261,8 @@ _In the context of an AWS User or Role, what is the difference between
 an inline policy and a customer managed policy? What are the differences
 between a customer managed policy and an AWS managed policy?_
 
+In-line policy cannot be reused by any other role. A customer managed policy can be attached to other IAM roles. AWS managed policies are created by AWS by default to allow easy access to common actions.
+
 #### Question: Role Assumption
 
 _When assuming a role, are the permissions of the initial principal
@@ -266,6 +270,8 @@ mixed with those of the role being assumed?
 Describe how that could easily be demonstrated with both a
 [positive and negative testing](https://www.guru99.com/positive-vs-negative-testing.html)
 approach._
+
+You can only perform actions that are in the policy of the assumed role. Assuming role does not allow you to inherit the permissions of the principal that was used to assume the role. Testing can be done via the CLI by adding the assumed role to the CLI config and using the --profile flag to switch back and forth.
 
 ## Lesson 3.3: Fine-Grained Controls With Policies
 
@@ -322,7 +328,10 @@ read-only access to the other.
 
 *Were there any errors? If so, take note of them.*
 
+>An error occurred (AccessDenied) when calling the PutObject operation: Access Denied
+
 *What were the results you expected, based on the role's policy?*
+>The S3 upload should fail.
 
 #### Lab 3.3.3: Conditional restrictions
 
@@ -366,10 +375,14 @@ _Is it possible to limit uploads of objects with a specific prefix (e.g.
 starting with "lebowski/") to an S3 bucket using IAM conditions? If not, how else
 could this be accomplished?_
 
+> Cannot be done using IAM conditions, write restrictions must be set in the resources section (or using a bucket policy)
+
 #### Task: Limiting Uploads
 
 Research and review the best method to limit uploads with a specific prefix to
 an S3 bucket.
+
+> Answered above ^
 
 ## Further Reading
 
