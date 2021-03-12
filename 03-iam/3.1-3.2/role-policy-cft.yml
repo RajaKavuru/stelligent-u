@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Stellligent Labs IAM role example
+Resources:
+  ReadOnlyPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: iam-read-only
+      Description: Allow get access for IAM
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - "iam:Get*"
+            Resource: "*"
+  IAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: arn:aws:iam::324320755747:user/raja.kavuru.labs
+            Action: "sts:AssumeRole"
+      Description: Role with read only access for S3 and IAM and can only be assumed by raja.kavuru.labs
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/IAMReadOnlyAccess
+        - !Ref ReadOnlyPolicy
+      RoleName: raja-kavuru-IAM-Read
+  EC2IAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: raja-kavuru-EC2-IAM-Read
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - "ec2.amazonaws.com"
+                - "iam.amazonaws.com"
+            Action: "sts:AssumeRole"
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/IAMReadOnlyAccess
+        - arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess
+Outputs:
+  ReadOnlyPolicyARN:
+    Description: ARN of ReadOnlyPolicy
+    Value: !Ref ReadOnlyPolicy
+  IAMRoleARN:
+    Description: ARN of IAMRole
+    Value: !Ref IAMRole
+  EC2IAMRoleARN:
+    Description: ARN of EC2IAMRole
+    Value: !Ref EC2IAMRole
