@@ -1,0 +1,14 @@
+[
+  {
+    "ParameterKey": "UserName",
+    "ParameterValue": "raja.kavuru.labs2"
+  },
+  {
+    "ParameterKey": "DefaultPassword",
+    "ParameterValue": "Default!12@3#"
+  },
+  {
+    "ParameterKey": "ManagedPolicyStackName",
+    "ParameterValue": "raja-kavuru-labs-01"
+  }
+]
